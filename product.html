@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrai | Signature Sage Sweatshirt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="widget.css">
+    <script src="widget.js" defer></script>
+    <style>
+        .pdp-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .pdp-container { grid-template-columns: 1fr 1fr; gap: 4rem; }
+        }
+        .pdp-image img { width: 100%; display: block; border: 1px solid var(--border-color); }
+        .pdp-details h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .pdp-price { font-size: 1.25rem; margin-bottom: 2rem; color: var(--text-secondary); }
+        .pdp-description { margin-bottom: 2rem; }
+        .add-to-cart { width: 100%; padding: 1rem; background: var(--text-primary); color: var(--bg-color); border: none; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-body); cursor: pointer; margin-bottom: 2rem; transition: background-color 0.3s ease; }
+        .add-to-cart:hover { background: var(--text-secondary); }
+        
+        .liquid-snippet-code {
+            background: #FAFAFA;
+            padding: 1.5rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: #333;
+            border: 1px solid #E5E5E5;
+            margin-top: 2rem;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">VRAI</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#impact">Data</a>
+        </div>
+    </nav>
+
+    <main class="pdp-container">
+        <div class="pdp-image">
+            <img src="images/a-highly-minimalist-flat-lay-of-a-premiu.png" alt="Signature Sage Sweatshirt">
+        </div>
+        <div class="pdp-details">
+            <h1>The Signature Sweatshirt</h1>
+            <div class="pdp-price">€45.00</div>
+            <p class="pdp-description">100% Mono-fiber organic circular knit. Engineered for durability, zero microplastic shedding, and total circularity. Designed to outlast rapid growth spurts and backed by our Deposit-not-Expense Guarantee.</p>
+            
+            <button class="add-to-cart" onclick="alert('Added to cart')">Add to Cart</button>
+
+            <!-- THIS IS THE SHOPIFY WIDGET COMPONENT -->
+            <vrai-ecobalyse-widget 
+                data-score="1125" 
+                data-co2="3.45" 
+                data-water="0.45" 
+                data-microplastics="0.0"
+                data-sku="VRAI-SWEAT-SAGE">
+            </vrai-ecobalyse-widget>
+
+        </div>
+    </main>
+
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 5% 4rem;">
+        <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem; font-size: 1.25rem;">Shopify Liquid Implementation Code</h3>
+        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Copy and paste this snippet directly into any Shopify 2.0 Product Template (Custom Liquid Block). It will automatically map the Metafields created by the Vercel API.</p>
+        <div class="liquid-snippet-code">
+&lt;!-- Vrai Ecobalyse Widget (Minimal Japanese) --&gt;
+&lt;link rel="stylesheet" href="https://baget-vrai.vercel.app/widget.css"&gt;
+&lt;script src="https://baget-vrai.vercel.app/widget.js" defer&gt;&lt;/script&gt;
+
+&lt;vrai-ecobalyse-widget 
+  data-score="{{ product.metafields.ecobalyse.score.value | default: '1125' }}"
+  data-co2="{{ product.metafields.ecobalyse.co2_eq.value | default: '3.45' }}"
+  data-water="{{ product.metafields.ecobalyse.water.value | default: '0.45' }}"
+  data-microplastics="{{ product.metafields.ecobalyse.microplastics.value | default: '0.0' }}"
+  data-sku="{{ product.selected_or_first_available_variant.sku | default: 'UNKNOWN' }}"&gt;
+&lt;/vrai-ecobalyse-widget&gt;
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">VRAI</div>
+            <p>&copy; 2026 Vrai Paris. Zero greenwashing. Absolute transparency.</p>
+        </div>
+    </footer>
+</body>
+</html>
