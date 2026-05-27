@@ -253,6 +253,46 @@ button:hover {
     font-weight: 500;
 }
 
+.seal-section {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.seal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .seal-container {
+        flex-direction: row;
+    }
+}
+
+.seal-image {
+    width: 240px;
+    height: 240px;
+    object-fit: contain;
+}
+
+.seal-section .text-content {
+    flex: 1;
+}
+
+.seal-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.seal-section p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
 .buy-back-section {
     padding: 8rem 0;
     border-top: 1px solid var(--border-color);
@@ -272,6 +312,16 @@ button:hover {
 .buy-back-section p {
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
+}
+
+.moodboard-section {
+    padding: 0 0 8rem;
+}
+
+.moodboard-image {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--border-color);
 }
 
 footer {
