@@ -75,7 +75,7 @@ module.exports = async function handler(req, res) {
                 }
 
                 // 4. Push to Shopify Product Metafields (GraphQL Mutation)
-                if (process.env.SHOPIFY_ADMIN_TOKEN) {
+                if (process.env.SHOPIFY_ADMIN_TOKEN && process.env.SHOPIFY_STORE_DOMAIN) {
                     const shopifyRes = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2026-04/graphql.json`, {
                         method: 'POST',
                         headers: {
@@ -103,7 +103,7 @@ module.exports = async function handler(req, res) {
                     });
                     
                     const shopifyData = await shopifyRes.json();
-                    if (shopifyData.errors || (shopifyData.data && shopifyData.data.metafieldsSet.userErrors.length > 0)) {
+                    if (shopifyData.errors || (shopifyData.data && shopifyData.data.metafieldsSet && shopifyData.data.metafieldsSet.userErrors && shopifyData.data.metafieldsSet.userErrors.length > 0)) {
                          console.error(`Shopify Metafield Sync Error for ${sku}:`, JSON.stringify(shopifyData));
                     }
                 }
@@ -111,7 +111,6 @@ module.exports = async function handler(req, res) {
                 results.push(payload);
 
             } catch (skuError) {
-                // Log Government API or Sync errors internally, preventing them from corrupting storefront metrics
                 console.error(`[SYNC VALIDATION ERROR] SKU: ${sku} -`, skuError.message);
                 errors.push({ sku, error: skuError.message });
             }
