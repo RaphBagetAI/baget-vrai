@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vrai | Early Access Waitlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .waitlist-page {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 5%;
+        }
+        .waitlist-container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .waitlist-container h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+        .waitlist-container p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .waitlist-form-extended {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 440px;
+            margin: 0 auto;
+        }
+        .waitlist-form-extended input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.875rem;
+            outline: none;
+            border-radius: 0;
+            transition: border-color 0.3s ease;
+        }
+        .waitlist-form-extended input:focus {
+            border-color: var(--text-primary);
+        }
+        .waitlist-form-extended button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">VRAI</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#impact">Data</a>
+            <a href="/#concept">Buy-Back</a>
+        </div>
+    </nav>
+
+    <main class="waitlist-page">
+        <div class="waitlist-container">
+            <h1>Early Access Waitlist.</h1>
+            <p>Join the movement for absolute transparency in children's wear. Enter your details below to secure your early access spot for our upcoming Deposit-not-Expense capsule collection.</p>
+            
+            <form id="extended-waitlist-form" class="waitlist-form-extended">
+                <input type="text" id="wl-name" placeholder="Full Name" required>
+                <input type="email" id="wl-email" placeholder="Email address" required>
+                <button type="submit">Request Early Access</button>
+            </form>
+            <div id="wl-form-status" class="form-status"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">VRAI</div>
+            <p>&copy; 2026 Vrai Paris. Zero greenwashing. Absolute transparency.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('extended-waitlist-form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const nameInput = document.getElementById('wl-name');
+                const emailInput = document.getElementById('wl-email');
+                const statusDiv = document.getElementById('wl-form-status');
+                const submitBtn = form.querySelector('button');
+                
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                if (!email || !name) return;
+
+                submitBtn.textContent = 'Submitting...';
+                submitBtn.disabled = true;
+                statusDiv.className = 'form-status';
+                statusDiv.textContent = '';
+
+                try {
+                    const res = await fetch('https://app.baget.ai/api/public/databases/7d29df69-dda6-4e02-bbbe-0490904d9937/rows', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            data: { 
+                                name: name,
+                                email: email,
+                                timestamp: new Date().toISOString()
+                            }
+                        })
+                    });
+
+                    if (res.ok) {
+                        statusDiv.textContent = 'Thanks — your early access spot is secured.';
+                        statusDiv.classList.add('success');
+                        nameInput.value = '';
+                        emailInput.value = '';
+                    } else {
+                        throw new Error('Failed to submit');
+                    }
+                } catch (error) {
+                    statusDiv.textContent = 'Something went wrong. Please try again.';
+                    statusDiv.classList.add('error');
+                } finally {
+                    submitBtn.textContent = 'Request Early Access';
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
