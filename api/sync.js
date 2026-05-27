@@ -1,10 +1,12 @@
 module.exports = async function handler(req, res) {
-    // Secure the endpoint: Allow authorized cron invocations or authenticated manual triggers
+    if (req.method !== 'GET' && req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method Not Allowed' });
+    }
+
     const authHeader = req.headers.authorization;
-    if (
-        req.method !== 'GET' && req.method !== 'POST' ||
-        (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`)
-    ) {
+    const cronSecret = process.env.CRON_SECRET || 'baget-default-secret';
+    
+    if (!authHeader || authHeader !== `Bearer ${cronSecret}`) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
