@@ -1,6 +1,6 @@
 {
-  "name": "vrai-shop",
-  "version": "1.0.0",
+  "name": "baget-vrai",
+  "version": "1.0.1",
   "scripts": {
     "build": "echo 'No build needed'"
   }
