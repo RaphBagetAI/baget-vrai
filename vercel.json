@@ -1,4 +1,5 @@
 {
+  "name": "vrai-shop",
   "crons": [
     {
       "path": "/api/sync",
