@@ -89,52 +89,52 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('extended-waitlist-form');
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const nameInput = document.getElementById('wl-name');
-                const emailInput = document.getElementById('wl-email');
-                const statusDiv = document.getElementById('wl-form-status');
-                const submitBtn = form.querySelector('button');
-                
-                const name = nameInput.value.trim();
-                const email = emailInput.value.trim();
-                if (!email || !name) return;
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const nameInput = document.getElementById('wl-name');
+                    const emailInput = document.getElementById('wl-email');
+                    const statusDiv = document.getElementById('wl-form-status');
+                    const submitBtn = form.querySelector('button');
+                    
+                    const name = nameInput.value.trim();
+                    const email = emailInput.value.trim();
+                    if (!email || !name) return;
 
-                submitBtn.textContent = 'Submitting...';
-                submitBtn.disabled = true;
-                statusDiv.className = 'form-status';
-                statusDiv.textContent = '';
+                    submitBtn.textContent = 'Submitting...';
+                    submitBtn.disabled = true;
+                    statusDiv.className = 'form-status';
+                    statusDiv.textContent = '';
 
-                try {
-                    const res = await fetch('https://app.baget.ai/api/public/databases/7d29df69-dda6-4e02-bbbe-0490904d9937/rows', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            data: { 
+                    try {
+                        const res = await fetch('/api/waitlist', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
                                 name: name,
                                 email: email,
-                                timestamp: new Date().toISOString()
-                            }
-                        })
-                    });
+                                source: 'extended'
+                            })
+                        });
 
-                    if (res.ok) {
-                        statusDiv.textContent = 'Thanks — your early access spot is secured.';
-                        statusDiv.classList.add('success');
-                        nameInput.value = '';
-                        emailInput.value = '';
-                    } else {
-                        throw new Error('Failed to submit');
+                        if (res.ok) {
+                            statusDiv.textContent = 'Thanks — your early access spot is secured.';
+                            statusDiv.classList.add('success');
+                            nameInput.value = '';
+                            emailInput.value = '';
+                        } else {
+                            throw new Error('Failed to submit');
+                        }
+                    } catch (error) {
+                        statusDiv.textContent = 'Something went wrong. Please try again.';
+                        statusDiv.classList.add('error');
+                    } finally {
+                        submitBtn.textContent = 'Request Early Access';
+                        submitBtn.disabled = false;
                     }
-                } catch (error) {
-                    statusDiv.textContent = 'Something went wrong. Please try again.';
-                    statusDiv.classList.add('error');
-                } finally {
-                    submitBtn.textContent = 'Request Early Access';
-                    submitBtn.disabled = false;
-                }
-            });
+                });
+            }
         });
     </script>
 </body>

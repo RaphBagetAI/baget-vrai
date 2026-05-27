@@ -21,12 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
             statusDiv.textContent = '';
 
             try {
-                const res = await fetch(`https://app.baget.ai/api/public/databases/${DB_ID}/rows`, {
+                const res = await fetch('/api/waitlist', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        data: { email: email }
-                    })
+                    body: JSON.stringify({ email: email })
                 });
 
                 if (res.ok) {
